@@ -329,17 +329,24 @@ def srv(p):
 
 
 def cli(p):     
-    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    s.connect(("feelfree.softether.net" , 8080))
-#    s.sendall(b"GET /connect/espcam/hola HTTP/1.1\r\nHost: feelfree.softether.net\r\nAccept: application/json\r\n\r\n")
-    s.send(b'%s %d\r\n\r\n' % (hdr['POST'], len(img)))
-    s.send(img)
-    s.send(b'\r\n')
-    result = s.recv(10000)
-    while (len(result) > 0):
+    while True:
+        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        s.connect(("feelfree.softether.net" , 8080))
+    #    s.sendall(b"GET /connect/espcam/hola HTTP/1.1\r\nHost: feelfree.softether.net\r\nAccept: application/json\r\n\r\n")
+        img = next(pic)
+        s.send(b'%s %d\r\n\r\n' % (hdr['POST'], len(img)))
+        s.send(img)
+        s.send(b'\r\n')
         result = s.recv(10000)
-        print('got result')
-    print('bye') 
+        while (len(result) > 0):
+            print(result)
+            print('\ngot result')
+            break
+        print('bye') 
+        s.close()  # flash buffer and close socket
+        del s
+        gc.collect()
+        time.sleep(0.01)
 
 # ------------------
 wc = 0
@@ -379,7 +386,7 @@ else:
 
     print(green+'Connection successful\n'+normal)
     pic = frame_gen()
-    img = next(pic)
+    
     flash_light = Pin(04, Pin.OUT)
     socks = servers()
     ports = [port1, port2, port3]  # 80, 81, 82
