@@ -119,9 +119,12 @@ def clean_up(client):
 
 def sockets():
     socks = []
-    # client port server - app server
-    s = soc.socket(soc.AF_INET, soc.SOCK_STREAM)
-    s.setsockopt(soc.SOL_SOCKET, soc.SO_REUSEADDR, 1)
+    # port 80 server - streaming server
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+    a = ('0.0.0.0', 80)
+    s.bind(a)
+    s.listen(2)  # queue at most 2 clients
     socks.append(s)
     return socks
 

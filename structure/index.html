@@ -79,6 +79,7 @@ transform: translateX(10px);
 .slider.round {border-radius: 34px;}
 .slider.round:before {border-radius: 50%;}
   .controles_layer {
+	width:350px;
     margin:auto;
   }
   .container{
@@ -141,122 +142,71 @@ transform: translateX(10px);
 		<br>
   </div>
 
-    <div class="controles_layer">
-		<h1>Control Manual</h1>
-    <input id="esp_data" style="padding: 8px 8px; display: block;width: 93.6%;" value="" disabled>
-    
-		<div class="container">
-			<div class="control">
-				<label id="swi-0" class="switch">
-					<input id="pin-0" disabled="disabled" type="checkbox">
-					<span class="slider round"></span>
-				</label>
-			</div>
+		<div class="controles_layer">
+			<h1>Control Manual</h1>
+			<div class="container">
+				<div class="control">
+					<label id="swi-0" class="switch">
+						<input id="pin-0" disabled="disabled" type="checkbox">
+						<span class="slider round"></span>
+					</label>
+				</div>
 
-			<div class="etiqueta">
-				<table class="lbl_t">
-					<tbody>
-						<tr>
-							<td class="lbl_td">
-								Salida 1
-							</td>
-						</tr>
-					</tbody>
-				</table>
-			</div>
+				<div class="etiqueta">
+					<table class="lbl_t">
+						<tbody>
+							<tr>
+								<td class="lbl_td">
+									Salida 1
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
 
-			<div class="control">
-				<label class="led">
-					<input id="in-0" disabled="disabled" type="checkbox">
-					<span class="entrada"></span>
-				</label>
-			</div>
+				<div class="control">
+					<label class="led">
+						<input id="in-0" disabled="disabled" type="checkbox">
+						<span class="entrada"></span>
+					</label>
+				</div>
 
-			<div class="etiqueta">
-				<table class="lbl_t">
-					<tbody>
-						<tr>
-							<td class="lbl_td">
-								Entrada 1
-							</td>
-						</tr>
-					</tbody>
-				</table>
-			</div>
-		</div> 
-        
-      <div class="container">
-        <div class="control"><label id="swi-1" class="switch">
-          <input id="pin-1" disabled="disabled" type="checkbox"><span class="slider round"></span></label></div>
-        <div class="etiqueta"><table class="lbl_t"><tbody><tr><td class="lbl_td">
-          Salida 2</td></tr></tbody></table></div>
-        <div class="control"><label class="led">
-          <input id="in-1" disabled="disabled" type="checkbox"><span class="entrada"></span></label></div>
-        <div class="etiqueta"><table class="lbl_t"><tbody><tr><td class="lbl_td">
-          Entrada 2</td></tr></tbody></table></div>
-      </div>
-      <div class="container">
-        <div class="control"><label id="swi-2" class="switch">
-          <input id="pin-2" disabled="disabled" type="checkbox"><span class="slider round"></span></label></div>
-        <div class="etiqueta"><table class="lbl_t"><tbody><tr><td class="lbl_td">
-          Salida 3</td></tr></tbody></table></div>
-        <div class="control"><label class="led">
-          <input id="in-2" disabled="disabled" type="checkbox"><span class="entrada"></span></label></div>
-        <div class="etiqueta"><table class="lbl_t"><tbody><tr><td class="lbl_td">
-          Entrada 3</td></tr></tbody></table></div>
-      </div>
-      <div class="container">
-        <div class="control"><label id="swi-3" class="switch">
-          <input id="pin-3" disabled="disabled" type="checkbox"><span class="slider round"></span></label></div>
-        <div class="etiqueta"><table class="lbl_t"><tbody><tr><td class="lbl_td">
-          Salida 4</td></tr></tbody></table></div>
-        <div class="control"><label class="led">
-          <input id="in-3" disabled="disabled" type="checkbox"><span class="entrada"></span></label></div>
-        <div class="etiqueta"><table class="lbl_t"><tbody><tr><td class="lbl_td">
-          Entrada 4</td></tr></tbody></table></div>
-      </div>
-      <div class="container">
-        <div class="control"><label id="swi-4" class="switch">
-          <input id="pin-4" disabled="disabled" type="checkbox"><span class="slider round"></span></label></div>
-        <div class="etiqueta"><table class="lbl_t"><tbody><tr><td class="lbl_td">
-          Salida 5</td></tr></tbody></table></div>
-        <div class="control"><label class="led">
-          <input id="in-4" disabled="disabled" type="checkbox"><span class="entrada"></span></label></div>
-        <div class="etiqueta"><table class="lbl_t"><tbody><tr><td class="lbl_td">
-          Entrada 5</td></tr></tbody></table></div>
-      </div>
-      <div class="container">
-        <div class="control"><label id="swi-5" class="switch">
-          <input id="pin-5" disabled="disabled" type="checkbox"><span class="slider round"></span></label></div>
-        <div class="etiqueta"><table class="lbl_t"><tbody><tr><td class="lbl_td">
-          Salida 6</td></tr></tbody></table></div>
-        <div class="control"><label class="led">
-          <input id="in-5" disabled="disabled" type="checkbox"><span class="entrada"></span></label></div>
-        <div class="etiqueta"><table class="lbl_t"><tbody><tr><td class="lbl_td">
-          Entrada 6</td></tr></tbody></table></div>
-      </div>
-      <div class="container">
-        <div class="control"><label id="swi-6" class="switch">
-          <input id="pin-6" disabled="disabled" type="checkbox"><span class="slider round"></span></label></div>
-        <div class="etiqueta"><table class="lbl_t"><tbody><tr><td class="lbl_td">
-          Salida 7</td></tr></tbody></table></div>
-        <div class="control"><label class="led">
-          <input id="in-6" disabled="disabled" type="checkbox"><span class="entrada"></span></label></div>
-        <div class="etiqueta"><table class="lbl_t"><tbody><tr><td class="lbl_td">
-          Entrada 7</td></tr></tbody></table></div>
-      </div>
-      <div class="container">
-        <div class="control"><label id="swi-7" class="switch">
-          <input id="pin-7" disabled="disabled" type="checkbox"><span class="slider round"></span></label></div>
-        <div class="etiqueta"><table class="lbl_t"><tbody><tr><td class="lbl_td">
-          Salida 8</td></tr></tbody></table></div>
-        <div class="control"><label class="led">
-          <input id="in-7" disabled="disabled" type="checkbox"><span class="entrada"></span></label></div>
-        <div class="etiqueta"><table class="lbl_t"><tbody><tr><td class="lbl_td">
-          Entrada 8</td></tr></tbody></table></div>
-      </div>
-    </div>
+				<div class="etiqueta">
+					<table class="lbl_t">
+						<tbody>
+							<tr>
+								<td class="lbl_td">
+									Entrada 1
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div> 
+			
+		  <div class="container">
+			<div class="control"><label id="swi-1" class="switch">
+			  <input id="pin-1" disabled="disabled" type="checkbox"><span class="slider round"></span></label></div>
+			<div class="etiqueta"><table class="lbl_t"><tbody><tr><td class="lbl_td">
+			  Salida 2</td></tr></tbody></table></div>
+			<div class="control"><label class="led">
+			  <input id="in-1" disabled="disabled" type="checkbox"><span class="entrada"></span></label></div>
+			<div class="etiqueta"><table class="lbl_t"><tbody><tr><td class="lbl_td">
+			  Entrada 2</td></tr></tbody></table></div>
+		  </div>
+		  <div class="container" style="width: 174px;">
+			<div class="control"><label id="swi-2" class="switch">
+			  <input id="pin-2" disabled="disabled" type="checkbox"><span class="slider round"></span></label></div>
+			<div class="etiqueta"><table class="lbl_t"><tbody><tr><td class="lbl_td">
+			  Salida 3</td></tr></tbody></table></div>
+			
+		  </div>
+		</div>
 </div>
+
+
+<img id="camview" src="" width=720 height=540 />
+
 
 <script>
     last_sender = ""
@@ -264,6 +214,7 @@ transform: translateX(10px);
     selected_psw = "$cred_psw"
 
     og_url = window.location.href
+	document.getElementById('camview').src = og_url.replace('/app','') + ":81/apikey/live"
     document.getElementById('wifi_ssid').value = selected_ssid
     document.getElementById('wifi_psw').value = selected_psw
 

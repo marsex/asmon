@@ -1,6 +1,4 @@
 import gc
-import esp
-import camera
 import _thread
 import usocket as soc
 import json
@@ -10,7 +8,6 @@ from machine import Pin
 from structure import wifi, machine_data
 
 th = _thread.start_new_thread
-esp.osdebug(True)
 
 red = ("\033[1;31;40m")
 green = ("\033[1;32;40m")
@@ -92,15 +89,6 @@ def sockets():
     s.bind(a)
     s.listen(2)  # queue at most 2 clients
     socks.append(s)
-
-    # port 81 server - still picture server
-    s = soc.socket(soc.AF_INET, soc.SOCK_STREAM)
-    s.setsockopt(soc.SOL_SOCKET, soc.SO_REUSEADDR, 1)
-    a = ('0.0.0.0', 81)
-    s.bind(a)
-    s.listen(2)
-    socks.append(s)
-
     return socks
 
 
@@ -114,8 +102,12 @@ def port1(client, req):
         sleep(.1)
         clean_up(client)
     elif req[1] == 'logo.png':
+        file = open('/structure/logo.png','r')
+        logo_img = file.read()
+        file.close()
         client.send(logo_img)
         sleep(.1)
+        del logo_img
         clean_up(client)
     elif req[1] == ('gpio'):
         pin, value = req[2], req[3]
@@ -135,58 +127,6 @@ def port1(client, req):
     else:
         client.send(b'%s' % hdr['err'])
         clean_up(client)
-
-def port2(client, req):
-    print('port2 req:', req)
-    req = req.split('/')
-    print('port2 req1:', req[1])
-    print('port2 req2:', req[2])
-    if req[1] == 'apikey':  # Must have /apikey/<REQ>
-        if req[2] == 'live':  # start streaming
-            print(b'%s' % hdr['stream'])
-            client.send(b'%s' % hdr['stream'])
-            print('start frame sending')
-            send_frame([client, hdr['frame']])
-        else:
-            client.send(b'%s' % hdr['none'])
-            clean_up(client)
-    else:
-        client.send(b'%s' % hdr['err'])
-        clean_up(client)
-
-
-def frame_gen():
-    while True:
-        buf = camera.capture()
-        yield buf
-        del buf
-        gc.collect()
-
-
-def send_frame(pp):
-    cs, h = pp
-    while True:
-        ee = ''
-        try:
-            print('send_frame')
-            print(b'%s' % h)
-            cs.send(b'%s' % h)
-            print('sent frame header')
-            cs.send(next(pic))
-            print('sent pic')
-            cs.send(b'\r\n')  # send and flush the send buffer
-            print('sent flush')
-        except Exception as e:
-            ee = str(e)
-            print(ee)
-        if ee == '':
-            time.sleep(0.005)  # try as fast as we can
-        else:
-            break
-
-    clean_up(cs)
-    return
-
 
 def clean_up(client):
     print(client)
@@ -289,52 +229,9 @@ def create_html():
     file.close()
     return chtml
 
-
-# setup networking
-wc = 0
-while True:
-    cr = camera.init(0, format=camera.JPEG) 
-    print("Camera ready?: ", cr)
-    if cr:
-        break
-    time.sleep(2)
-    wc += 1
-    if wc >= 5:
-        break
-
-
-if not cr:
-    print("Camera not ready. Can't continue!")
-else:
-    file = open('/structure/logo.png','r')
-    logo_img = file.read()
-    file.close()
-
-    wifi.start()
-    sleep(1)
-    wifi.set_credentials('1255,12551255')
-    credentials_state, cred_ssid, cred_psw = wifi.get_credentials()
-
-    while credentials_state == False:
-        print('Getting credentials...')
-        credentials_state, cred_ssid, cred_psw = wifi.get_credentials()
-        sleep(1)
-        pass
-
-    sleep(1)
-
-    wifi_connected = wifi.connect(cred_ssid, cred_psw)
-
-    while wifi_connected == False:
-        print("WIFI not ready. Wait...")
-        sleep(2)
-        pass
-
-    print(green+'Connection successful\n'+normal)
-
-    pic = frame_gen()
-    flash_light = Pin(04, Pin.OUT)
-    socks = sockets()
-    ports = [port1, port2]  # 80, 81, 82
-    th(srv, (0,))
+def start():
+    th(srv, (0,)) 
     print(green+'server started'+normal)
+
+socks = sockets()
+ports = [port1]  # 80, 81, 82

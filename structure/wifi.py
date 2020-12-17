@@ -2,16 +2,24 @@ import network
 import socket
 import _thread
 from time import sleep
-th = _thread.start_new_thread
+
 scan_list = []
-def start():
-    network.WLAN(network.STA_IF).active(True)
-    th(scan_networks,())
-    return '\n\nWiFi System Running\n\n'
+
+def ap_on():
+    ap_wlan = network.WLAN(network.AP_IF)
+    ap_wlan.active(True)
+    ap_wlan.config(essid='ASMON AP System')
+    ap_wlan.config(authmode=3, password='12551255')
+    ap_localhost = ap_wlan.ifconfig()[0]  # get ip addr
+    scan_networks()
+    print('AP Configurated\n')
+    return True
 
 def scan_networks():
     global scan_list
+    
     station = network.WLAN(network.STA_IF)
+    station.active(True)
     while True:
         try:
             #print('Scanning networks')
@@ -21,28 +29,28 @@ def scan_networks():
                 break
         except:
             print('scan failed')
-        sleep(3)
+        sleep(2)
     print('\n\nStopping Scan')
 
+
 def get_networks():
-    global scan_list
-    print(scan_list)
     return scan_list
 
-def get_credentials():
-  global cred_ssid, cred_psw
-  file = open("/structure/credentials","r")
-  data = file.read()
-  file.close()
 
-  cred_ssid=data.split(",")[0]
-  cred_psw=data.split(",")[1]
-  
-  if cred_ssid == 'null':
-    return False,cred_ssid,cred_psw
-  else:
-    return True,cred_ssid,cred_psw
-    
+def get_credentials():
+    global cred_ssid, cred_psw
+    file = open("/structure/credentials","r")
+    data = file.read()
+    file.close()
+
+    cred_ssid=data.split(",")[0]
+    cred_psw=data.split(",")[1]
+
+    if cred_ssid == 'null':
+        return False,'null','null'
+    else:
+        return True,cred_ssid,cred_psw
+
 
 def set_credentials(c_data):
     print('Got credentials: ', c_data)
@@ -51,7 +59,7 @@ def set_credentials(c_data):
     file.write(c_data)
     file.close()
     print('Credentials Saved')
-  
+
 
 def connect(cred_ssid,cred_psw):
     print('\n{\n\tConnecting to network: ' +cred_ssid)

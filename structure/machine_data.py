@@ -5,10 +5,68 @@ import uerrno
 from machine import Pin
 from structure import update
 
-inp_gpio = [12, 13, 15]
-out_gpio = [2, 14]
+inp_gpio = [13, 15]
+out_gpio = [2, 14, 12]
 
-
+machine_data = {
+    "command": "null",
+    "version": "v0.9.1.1",
+    "platform": "asmon",
+    "uptime": str(time.time()),
+    "user": "dev_cam01",
+    "gpio": {
+        "input_enable": [0, 0, 1, 0, 0, 0, 0, 0],
+        "input_state": [0, 0, 1, 0, 0, 0, 0, 0],
+        "input_prog": [0, 0, 2, 0, 0, 0, 0, 0],
+        "output_enable": [1, 1, 1, 1, 1, 1, 1, 1],
+        "output_state": [0, 0, 0, 0, 0, 1, 0, 0],
+        "output_prog": [0, 0, 0, 0, 0, 0, 0, 0]
+    },
+    "dht1": {
+        "tmp_enable": 0,
+        "tmp": 0,
+        "tmp_salida": 3,
+        "tmp_set": 0,
+        "tmp_on_time": 0,
+        "tmp_on_tick": 0,
+        "tmp_off_time": 0,
+        "tmp_off_tick": 0,
+        "tmp_interval": 0,
+        "tmp_tick": 0,
+        "hmd_enable": 0,
+        "hmd": 0,
+        "hmd_salida": 3,
+        "hmd_set": 0,
+        "hmd_on_time": 0,
+        "hmd_on_tick": 0,
+        "hmd_off_time": 0,
+        "hmd_off_tick": 0,
+        "hmd_interval": 0,
+        "hmd_tick": 0
+    },
+    "dht2": {
+        "tmp_enable": 0,
+        "tmp": 0,
+        "tmp_salida": 3,
+        "tmp_set": 0,
+        "tmp_on_time": 0,
+        "tmp_on_tick": 0,
+        "tmp_off_time": 0,
+        "tmp_off_tick": 0,
+        "tmp_interval": 0,
+        "tmp_tick": 0,
+        "hmd_enable": 0,
+        "hmd": 0,
+        "hmd_salida": 3,
+        "hmd_set": 0,
+        "hmd_on_time": 0,
+        "hmd_on_tick": 0,
+        "hmd_off_time": 0,
+        "hmd_off_tick": 0,
+        "hmd_interval": 0,
+        "hmd_tick": 0
+    }
+}
 def gpio_pins():
     return out_gpio, inp_gpio
 
@@ -35,7 +93,7 @@ def parse_data(command_json):
     #parsed_input = str(client_data[2:len(client_data)-1].replace("\'", "\""))
     # print(parsed_input)
     #command_json = ujson.loads(client_data)
-    print(command_json)
+    #print(command_json)
     #print('got command')
 
     if command_json['command'] == 'output_state':
@@ -44,15 +102,13 @@ def parse_data(command_json):
         state = int(data[1])
         out_gpio = out_pins()
         Pin(out_gpio[pin], value=state)
-
-    if command_json['command'] == 'dht1':
+    elif command_json['command'] == 'dht1':
         data = command_json['data'].split(',')
         print(data)
         for x in data:
             objeto = x.split('=')
             set_double('dht1', objeto[0], objeto[1])
-
-    if command_json['command'] == 'remote_update':
+    elif command_json['command'] == 'remote_update':
         update_info = command_json['data'].split(',')
         print('try to update', update_info)
         update.remote(update_info[0], update_info[1], update_info[2])
@@ -69,70 +125,6 @@ def get():
     machine_data['dht2']['tmp'] = 0  # dht2.temperature()
     machine_data['dht2']['hmd'] = 0  # dht2.humidity()
     machine_data['uptime'] = str(time.time())
-    machine_data['gpio']['input_state'] = input_state
+    machine_data['gpio']['input_state'] = input_state   
     machine_data['gpio']['output_state'] = output_state
-    return machine_data
-
-
-def create():
-    global machine_data
-    machine_data = {
-        "command": "null",
-        "version": "v0.9.1.1",
-        "platform": "asmon",
-        "uptime": str(time.time()),
-        "user": "esp02",
-        "gpio": {
-            "input_enable": [0, 0, 1, 0, 0, 0, 0, 0],
-            "input_state": [0, 0, 1, 0, 0, 0, 0, 0],
-            "input_prog": [0, 0, 2, 0, 0, 0, 0, 0],
-            "output_enable": [1, 1, 1, 1, 1, 1, 1, 1],
-            "output_state": [0, 0, 0, 0, 0, 1, 0, 0],
-            "output_prog": [0, 0, 0, 0, 0, 0, 0, 0]
-        },
-        "dht1": {
-            "tmp_enable": 0,
-            "tmp": 0,
-            "tmp_salida": 3,
-            "tmp_set": 0,
-            "tmp_on_time": 0,
-            "tmp_on_tick": 0,
-            "tmp_off_time": 0,
-            "tmp_off_tick": 0,
-            "tmp_interval": 0,
-            "tmp_tick": 0,
-            "hmd_enable": 0,
-            "hmd": 0,
-            "hmd_salida": 3,
-            "hmd_set": 0,
-            "hmd_on_time": 0,
-            "hmd_on_tick": 0,
-            "hmd_off_time": 0,
-            "hmd_off_tick": 0,
-            "hmd_interval": 0,
-            "hmd_tick": 0
-        },
-        "dht2": {
-            "tmp_enable": 0,
-            "tmp": 0,
-            "tmp_salida": 3,
-            "tmp_set": 0,
-            "tmp_on_time": 0,
-            "tmp_on_tick": 0,
-            "tmp_off_time": 0,
-            "tmp_off_tick": 0,
-            "tmp_interval": 0,
-            "tmp_tick": 0,
-            "hmd_enable": 0,
-            "hmd": 0,
-            "hmd_salida": 3,
-            "hmd_set": 0,
-            "hmd_on_time": 0,
-            "hmd_on_tick": 0,
-            "hmd_off_time": 0,
-            "hmd_off_tick": 0,
-            "hmd_interval": 0,
-            "hmd_tick": 0
-        }
-    }
     return machine_data

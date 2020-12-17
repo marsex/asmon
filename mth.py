@@ -123,12 +123,12 @@ def send_frame(pp):
     return
 
 
-def servers():
+def sockets():
     socks = []
-    # port 80 server - streaming server
+    # port 81 server - streaming server
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-    a = ('0.0.0.0', 80)
+    a = ('0.0.0.0', 81)
     s.bind(a)
     s.listen(2)  # queue at most 2 clients
     socks.append(s)
@@ -136,7 +136,7 @@ def servers():
     # port 81 server - still picture server
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-    a = ('0.0.0.0', 81)
+    a = ('0.0.0.0', 82)
     s.bind(a)
     s.listen(2)
     socks.append(s)
@@ -144,9 +144,17 @@ def servers():
     # port 82 server - cmd server
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-    a = ('0.0.0.0', 82)
+    a = ('0.0.0.0', 83)
     s.bind(a)
     s.listen(2)
+    socks.append(s)
+    
+    # port 80 server - streaming server
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+    a = ('0.0.0.0', 80)
+    s.bind(a)
+    s.listen(2)  # queue at most 2 clients
     socks.append(s)
 
     return socks
@@ -363,7 +371,7 @@ else:
     print(green+'Connection successful\n'+normal)
     pic = frame_gen()
     flash_light = Pin(04, Pin.OUT)
-    socks = servers()
+    socks = sockets()
     ports = [port1, port2, port3]  # 80, 81, 82
 
     # schedule 2 servers for port 80

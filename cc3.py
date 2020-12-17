@@ -327,7 +327,6 @@ def srv(p):
                 print(ee)
 
 
-
 def cli(p):     
     while True:
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -342,11 +341,14 @@ def cli(p):
             print(result)
             print('\ngot result')
             break
+
         print('bye') 
         s.close()  # flash buffer and close socket
         del s
         gc.collect()
         time.sleep(0.01)
+
+
 
 # ------------------
 wc = 0
